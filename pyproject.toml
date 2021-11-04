@@ -1,0 +1,19 @@
+[tool.poetry]
+name = "python_backend_test"
+version = "0.1.0"
+description = ""
+authors = ["guitvcer <abdrakhman.galaxy.s2@gmail.com>"]
+
+[tool.poetry.dependencies]
+python = "^3.10"
+Django = "^3.2.9"
+djangorestframework = "^3.12.4"
+schedule = "^1.1.0"
+xmltodict = "^0.12.0"
+requests = "^2.26.0"
+
+[tool.poetry.dev-dependencies]
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"

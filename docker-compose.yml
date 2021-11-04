@@ -1,0 +1,9 @@
+version: '3'
+services:
+  python-backend-test:
+    image: python_backend_test
+    container_name: python_backend_test
+    build: .
+    ports:
+      - "9000:9000"
+    command: sh -c "poetry run python manage.py update_currencies & poetry run python manage.py runserver &"

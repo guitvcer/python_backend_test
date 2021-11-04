@@ -1,0 +1,62 @@
+{% load static %}
+<!doctype html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Python Backend Тест</title>
+</head>
+<body>
+    <form method="POST" id="searchIdForm">
+        <button type="submit">Получить Search ID</button>
+    </form>
+
+    <br>
+
+    <form method="GET" id="searchResultForm">
+        <label for="search_id">Search ID:</label>
+        <input type="text" placeholder="Search ID" name="search_id" id="search_id" required>
+
+        <br>
+
+        <label for="currency">Валюта:</label>
+        <input type="text" placeholder="Валюта" name="currency" id="currency" required>
+
+        <button type="submit">Получить результаты поиска</button>
+    </form>
+
+    <script>
+        const searchIdForm = document.getElementById("searchIdForm");
+        const searchResultForm = document.getElementById("searchResultForm");
+
+        searchIdForm.addEventListener("submit", event => {
+            event.preventDefault();
+
+            fetch(window.location.href + "search", {
+                method: "POST",
+            })
+                .then(response => response.json())
+                .then(data => {
+                    console.log(data);
+                    alert("Данные получены. Проверьте консоль.");
+                });
+        });
+
+        searchResultForm.addEventListener("submit", event => {
+            event.preventDefault();
+
+            const searchId = searchResultForm["search_id"].value;
+            const currency = searchResultForm["currency"].value;
+
+            fetch(window.location.href + "results/" + searchId + "/" + currency)
+                .then(response => response.json())
+                .then(data => {
+                    console.log(data);
+                    alert("Данные получены. Проверьте консоль.");
+                });
+        });
+    </script>
+</body>
+</html>
