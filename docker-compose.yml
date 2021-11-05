@@ -6,4 +6,3 @@ services:
     build: .
     ports:
       - "9000:9000"
-    command: sh -c "poetry run python manage.py update_currencies & poetry run python manage.py runserver &"

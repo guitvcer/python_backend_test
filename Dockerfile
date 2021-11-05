@@ -11,3 +11,5 @@ RUN pip install poetry
 RUN poetry install
 RUN poetry run python manage.py makemigrations airflow
 RUN poetry run python manage.py migrate
+
+CMD ["poetry", "run", "python", "manage.py", "runserver", "0.0.0.0:9000"]
