@@ -6,7 +6,7 @@
 
 ## Запуск
     poetry install
-    poetry run python manage.py makemigration airflow
+    poetry run python manage.py makemigrations airflow
     poetry run python manage.py migrate
     poetry run python manage.py update_currencies & poetry run python manage.py runserver &
 
