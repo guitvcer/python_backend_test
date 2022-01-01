@@ -32,7 +32,7 @@ class SearchResult(models.Model):
 
     search_id = models.BigAutoField(primary_key=True)
     status = models.CharField(max_length=1, choices=STATUSES, default="P", verbose_name="Статус")
-    items = models.JSONField(null=True, verbose_name="Результат")
+    items = models.JSONField(null=True, default=list, verbose_name="Результат")
     amount = models.FloatField(default=0, verbose_name="Сумма в EUR")
 
     class Meta:

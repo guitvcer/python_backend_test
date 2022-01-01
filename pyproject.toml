@@ -11,6 +11,9 @@ djangorestframework = "^3.12.4"
 schedule = "^1.1.0"
 xmltodict = "^0.12.0"
 requests = "^2.26.0"
+celery = "^5.2.3"
+eventlet = "^0.33.0"
+redis = "^4.1.0"
 
 [tool.poetry.dev-dependencies]
 
