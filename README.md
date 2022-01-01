@@ -7,8 +7,7 @@
 ## Запуск
     poetry install
     poetry run python manage.py migrate
-    poetry run python manage.py update_currencies & poetry run python manage.py runserver &
+    poetry run python manage.py runserver
 
 ## Запуск через docker-compose
-### Не запускается manage.py update_currencies
     docker-compose up

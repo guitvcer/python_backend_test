@@ -1,4 +1,5 @@
 import os
+from celery.schedules import crontab
 from pathlib import Path
 
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -18,6 +19,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     'rest_framework',
+    'django_celery_beat',
 
     'airflow',
     'provider_a',
@@ -93,3 +95,14 @@ STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
+CELERY_BROKER_URL = 'redis://localhost'
+CELERY_RESULT_BACKEND = 'redis://localhost'
+CELERY_TIMEZONE = 'Asia/Almaty'
+CELERY_BEAT_SCHEDULE = {
+    'update_currencies_every_day': {
+        'task': 'airflow.tasks.load_currencies',
+        'schedule': crontab(minute='0', hour='12'),
+    }
+}

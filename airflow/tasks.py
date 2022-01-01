@@ -1,10 +1,12 @@
+import json
+import xmltodict
 import requests
 
 from celery import group, shared_task
 from django.urls import reverse
 
 from .models import SearchResult
-from .services import get_amount
+from .services import get_amount, update_currency
 
 
 @shared_task
@@ -30,3 +32,23 @@ def update_search_result(base_uri: str, search_id: int) -> None:
     search_result = SearchResult.objects.get(search_id=search_id)
     search_result.status = "C"
     search_result.save()
+
+
+@shared_task
+def load_currencies() -> None:
+    """Загрузить валюты и сохранить в БД"""
+
+    print("HELLLLLOOOOOO")
+
+    currencies_xml = requests.get("https://www.nationalbank.kz/rss/get_rates.cfm?fdate=26.10.2021").text
+    currencies_json = json.dumps(xmltodict.parse(currencies_xml), ensure_ascii=False)
+    currencies = json.loads(currencies_json)
+
+    for currency in currencies["rates"]["item"]:
+        update_currency(currency)
+
+    update_currency({
+        "fullname": "КАЗАХСТАНСКИЙ ТЕНГЕ",
+        "title": "KZT",
+        "description": "1",
+    })
