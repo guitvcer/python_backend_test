@@ -14,6 +14,4 @@ RUN poetry config virtualenvs.create false \
 
 COPY . .
 
-RUN poetry run python manage.py migrate
-
-CMD ["poetry", "run", "python", "manage.py", "runserver", "0.0.0.0:9000"]
+RUN python manage.py migrate

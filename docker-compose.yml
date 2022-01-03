@@ -1,10 +1,52 @@
 version: '3'
 services:
-  python-backend-test:
-    image: python_backend_test
-    container_name: python_backend_test
+  redis:
+    image: redis
+    container_name: redis
+    ports:
+      - "6379:6379"
+    restart: always
+  app:
     build: .
+    image: python_backend_test
+    container_name: app
+    command: bash -c "python manage.py migrate && python manage.py runserver 0.0.0.0:9000"
     ports:
       - "9000:9000"
     volumes:
       - ".:/app/"
+    links:
+      - redis
+    restart: always
+    environment:
+      BASE_URL: http://app:9000
+      BROKER_URL: redis://redis
+      RESULT_BACKEND: redis://redis
+  celery-worker:
+    image: python_backend_test
+    container_name: celery_worker
+    command: celery -A python_backend_test worker -l INFO
+    restart: always
+    links:
+      - app
+      - redis
+    volumes:
+      - ".:/app/"
+    environment:
+      BASE_URL: http://app:9000
+      BROKER_URL: redis://redis
+      RESULT_BACKEND: redis://redis
+  celery-beat:
+    image: python_backend_test
+    container_name: celery_beat
+    command: celery -A python_backend_test beat -l INFO --scheduler django_celery_beat.schedulers:DatabaseScheduler
+    restart: always
+    links:
+      - app
+      - redis
+    volumes:
+      - ".:/app/"
+    environment:
+      BASE_URL: http://app:9000
+      BROKER_URL: redis://redis
+      RESULT_BACKEND: redis://redis

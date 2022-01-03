@@ -1,6 +1,10 @@
 import os
 from celery.schedules import crontab
+from dotenv import load_dotenv
 from pathlib import Path
+
+
+load_dotenv()
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -8,7 +12,7 @@ SECRET_KEY = 'django-insecure-rwq_$6qn1_s!^!)r-uh*qrg58zkz2pxli6$nbeo=1&ck)xw1$!
 
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -97,8 +101,8 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
-CELERY_BROKER_URL = 'redis://localhost'
-CELERY_RESULT_BACKEND = 'redis://localhost'
+CELERY_BROKER_URL = os.getenv('BROKER_URL')
+CELERY_RESULT_BACKEND = os.getenv('RESULT_BACKEND')
 CELERY_TIMEZONE = 'Asia/Almaty'
 CELERY_BEAT_SCHEDULE = {
     'update_currencies_every_day': {
